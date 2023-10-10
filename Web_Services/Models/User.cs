@@ -3,9 +3,21 @@ using MongoDB.Bson;
 
 namespace Web_Services.Models
 {
+    public enum UserType
+    {
+        Backoffice,
+        Agent,
+        Traveler
+    }
+
+    public enum StatusType
+    {
+       Active,
+       Deactive
+    }
+
     public class User
     {
-
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = String.Empty;
@@ -27,8 +39,11 @@ namespace Web_Services.Models
         public string Address { get; set; } = String.Empty;
 
         [BsonElement("status")]
-        public string Status { get; set; } = String.Empty;
+        public StatusType Status { get; set; } = StatusType.Active;
 
-       
+        [BsonElement("type")]
+        public UserType Type { get; set; } = UserType.Traveler;
+
+
     }
 }

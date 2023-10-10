@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
 using Web_Services.Models;
 
 namespace Web_Services.Services
@@ -29,9 +30,10 @@ namespace Web_Services.Services
             return _users.Find(user => user.Id == id).FirstOrDefault();
         }
 
-        public List<User> GetUsers()
+        public List<User> GetUsers(int page)
         {
-            return _users.Find(user => true).ToList();
+            var skip = (page - 1) * 8;
+            return _users.Find(_ => true).Skip(skip).Limit(8).ToList();
         }
 
         public void UpdateUser(string id, User user)

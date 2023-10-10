@@ -19,10 +19,10 @@ namespace Web_Services.Controllers
 
 
         // GET: api/<TicketController>
-        [HttpGet]
-        public ActionResult<List<User>> Get()
+        [HttpGet("page/{page}")]
+        public ActionResult<List<User>> Get(int page)
         {
-            return userService.GetUsers();
+            return userService.GetUsers(page);
         }
 
         // GET api/<TicketController>/5

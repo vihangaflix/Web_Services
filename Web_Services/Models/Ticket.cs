@@ -28,9 +28,12 @@ namespace Web_Services.Models
         public string LastUpdatedTime { get; set; } = String.Empty;
 
         [BsonElement("Status")]
-        public string Status { get; set; } = String.Empty;
+        public StatusType Status { get; set; } = StatusType.Active;
 
         [BsonElement("NumberOfReservations")]
         public int NumberOfReservations { get; set; }
+
+        [BsonElement("Assigne")]
+        public string Assigne { get; set; } = String.Empty;
     }
 }

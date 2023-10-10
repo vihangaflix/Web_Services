@@ -30,9 +30,10 @@ namespace Web_Services.Services
             return _tickets.Find(ticket => ticket.Id == id).FirstOrDefault();
         }
 
-        public List<Ticket> GetTickets()
+        public List<Ticket> GetTickets(int page)
         {
-            return _tickets.Find(ticket => true).ToList();
+            var skip = (page - 1) * 8;
+            return _tickets.Find(_ => true).Skip(skip).Limit(8).ToList();
         }
 
         public void UpdateTicket(string id, Ticket ticket)

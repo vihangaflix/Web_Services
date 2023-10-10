@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
 using Web_Services.Models;
 
 namespace Web_Services.Services
@@ -30,9 +31,10 @@ namespace Web_Services.Services
             return _trains.Find(train => train.Id == id).FirstOrDefault();
         }
 
-        public List<Train> GetTrains()
+        public List<Train> GetTrains(int page)
         {
-            return _trains.Find(train => true).ToList();
+            var skip = (page - 1) * 8;
+            return _trains.Find(_ => true).Skip(skip).Limit(8).ToList();
         }
 
         public void UpdateTrain(string id, Train train)

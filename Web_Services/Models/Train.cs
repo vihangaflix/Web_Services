@@ -3,6 +3,12 @@ using MongoDB.Bson;
 
 namespace Web_Services.Models
 {
+    public enum TypeEnum
+    {
+        Cancel,
+        Active,
+        ActiveAndPublished
+    }
     public class Train
     {
         [BsonId]
@@ -28,6 +34,6 @@ namespace Web_Services.Models
         public string LastUpdatedTime { get; set; } = String.Empty;
 
         [BsonElement("Status")]
-        public string Status { get; set; } = String.Empty;
+        public TypeEnum Status { get; set; } = TypeEnum.Cancel;
     }
 }
