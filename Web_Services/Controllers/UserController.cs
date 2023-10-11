@@ -39,6 +39,23 @@ namespace Web_Services.Controllers
             return user;
         }
 
+        // GET api/<TicketController>/5
+        [HttpGet("signup")]
+        public ActionResult<User> Get(string username, string NIC)
+        {
+            string user = userService.FindByUserName(username, NIC);
+
+            if (user == "User Not Found")
+            {
+                return NotFound($"User with Id = {username} not found");
+            }else if (user == "Password is incorrect")
+            {
+                return NotFound($"User with NIC = {NIC} not found");
+            }
+
+            return Ok();
+        }
+
         // POST api/<TicketController>
         [HttpPost]
         public ActionResult<User> Post([FromBody] User user)

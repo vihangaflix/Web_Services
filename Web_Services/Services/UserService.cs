@@ -30,6 +30,26 @@ namespace Web_Services.Services
             return _users.Find(user => user.Id == id).FirstOrDefault();
         }
 
+        public string FindByUserName(string username, string NIC)
+        {
+            var user = _users.Find(user => user.UserName == username).FirstOrDefault();
+
+            if (user == null)
+            {
+                return "User Not Found";
+            }
+
+            var passwordValid = _users.Find(user => user.NIC == NIC).FirstOrDefault();
+
+            if (passwordValid == null)
+            {
+                return "Password is incorrect";
+            }
+
+            return "Authorized";
+
+        }
+
         public List<User> GetUsers(int page)
         {
             var skip = (page - 1) * 8;
