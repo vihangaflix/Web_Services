@@ -44,6 +44,5 @@ namespace Web_Services.Models
         [BsonElement("type")]
         public UserType Type { get; set; } = UserType.Traveler;
 
-
     }
 }

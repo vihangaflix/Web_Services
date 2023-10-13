@@ -30,24 +30,23 @@ namespace Web_Services.Services
             return _users.Find(user => user.Id == id).FirstOrDefault();
         }
 
-        public string FindByUserName(string username, string NIC)
+        public T FindByUserName<T>(string username, string NIC)
         {
             var user = _users.Find(user => user.UserName == username).FirstOrDefault();
 
             if (user == null)
             {
-                return "User Not Found";
+                return (T)(object)"User Not Found";
             }
 
-            var passwordValid = _users.Find(user => user.NIC == NIC).FirstOrDefault();
+            var NICValid = _users.Find(user => user.NIC == NIC).FirstOrDefault();
 
-            if (passwordValid == null)
+            if (NICValid == null)
             {
-                return "Password is incorrect";
+                return (T)(object)"NIC is incorrect";
             }
 
-            return "Authorized";
-
+            return (T)(object)_users.Find(user => user.NIC == NIC).FirstOrDefault();
         }
 
         public List<User> GetUsers(int page)

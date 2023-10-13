@@ -7,7 +7,7 @@ namespace Web_Services.Services
         User CreateUser(User user);
         List<User> GetUsers(int page);
         User GetUserById(string id);
-        string FindByUserName(string username, string NIC);
+        T FindByUserName<T>(string username, string NIC);
         void UpdateUser(string id, User user);
         void DeleteUser(string id);
     }
