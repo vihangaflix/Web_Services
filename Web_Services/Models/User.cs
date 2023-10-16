@@ -13,7 +13,7 @@ namespace Web_Services.Models
     public enum StatusType
     {
        Active,
-       Deactive
+       ActiveAndPublished
     }
 
     public class User

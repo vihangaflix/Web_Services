@@ -12,7 +12,7 @@ namespace Web_Services.Services
         {
 
             var database = mongoClient.GetDatabase(settings.DatabaseName);
-            _trains = database.GetCollection<Train>(settings.DatabaseName);
+            _trains = database.GetCollection<Train>(settings.TrainCollectionName);
         }
 
         public Train CreateTrain(Train train)

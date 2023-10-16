@@ -6,6 +6,7 @@ namespace Web_Services.Services
     {
         Ticket CreateTicket(Ticket ticket);
         List<Ticket> GetTickets(int page);
+        List<Ticket> GetTicketsByStatus(int value);
         Ticket GetTicketById(string id);
         void UpdateTicket(string id, Ticket ticket);
         void DeleteTicket(string id);

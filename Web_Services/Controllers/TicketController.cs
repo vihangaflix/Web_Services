@@ -24,6 +24,12 @@ namespace Web_Services.Controllers
             return ticketService.GetTickets(page);
         }
 
+        [HttpGet("status")]
+        public ActionResult<List<Ticket>> GetByStatus(int status)
+        {
+            return ticketService.GetTicketsByStatus(status);
+        }
+
         // GET api/<TicketController>/5
         [HttpGet("{id}")]
         public ActionResult<Ticket> Get(string id)

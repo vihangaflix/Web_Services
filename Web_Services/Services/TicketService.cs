@@ -36,6 +36,11 @@ namespace Web_Services.Services
             return _tickets.Find(_ => true).Skip(skip).Limit(8).ToList();
         }
 
+        public List<Ticket> GetTicketsByStatus(int value)
+        {
+            return _tickets.Find(ticket => ticket.Status.Equals(value)).ToList();
+        }
+
         public void UpdateTicket(string id, Ticket ticket)
         {
             _tickets.ReplaceOne(ticket => ticket.Id == id, ticket);
