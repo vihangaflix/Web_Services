@@ -44,6 +44,12 @@ namespace Web_Services.Models
         [BsonElement("TrainDepartureLocation")]
         public string TrainDepartureLocation { get; set; } = String.Empty;
 
+        [BsonElement("TravelAgentId")]
+        public string TravelAgentId { get; set; } = String.Empty;
+
+        [BsonElement("TravelAgentName")]
+        public string TravelAgentName { get; set; } = String.Empty;
+
         [BsonElement("type")]
         public UserTypeEnum Type { get; set; } = UserTypeEnum.Resolve;
 
