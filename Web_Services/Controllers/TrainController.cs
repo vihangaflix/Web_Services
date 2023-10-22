@@ -1,83 +1,82 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Web_Services.Models;
 using Web_Services.Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Web_Services.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class TrainController : ControllerBase
+    [Route("api/train")]
+    public class TrainController : Controller
     {
-        private readonly ITrainService trainService;
-
-        public TrainController(ITrainService trainService)
+        private readonly MongoDBService _mongoDBService;
+        private readonly ILogger<TrainController> _logger;
+        public TrainController(MongoDBService mongoDBService,
+       ILogger<TrainController> logger)
         {
-            this.trainService = trainService;
+            _mongoDBService = mongoDBService;
+            _logger = logger;
         }
-
-
-        // GET: api/<TicketController>
-        [HttpGet("page/{page}")]
-        public ActionResult<List<Train>> Get(int page)
+        //Create train with schedules
+        [HttpPost("create")]
+        public async Task<dynamic> CreateTrain([FromBody] Train train)
         {
-            return trainService.GetTrains(page);
-        }
-
-        // GET api/<TicketController>/5
-        [HttpGet("{id}")]
-        public ActionResult<Train> Get(string id)
-        {
-            var train = trainService.GetTrainById(id);
-
-            if (train == null)
+            var request = Request;
+            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
-                return NotFound($"Train with Id = {id} not found");
+                return Unauthorized("Unauthorized");
             }
-
-            return train;
-        }
-
-        // POST api/<TicketController>
-        [HttpPost]
-        public ActionResult<Train> Post([FromBody] Train train)
-        {
-            trainService.CreateTrain(train);
-
-            return CreatedAtAction(nameof(Get), new { id = train.Id }, train);
-        }
-
-        // PUT api/<TicketController>/5
-        [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Train train)
-        {
-            var existingTrain = trainService.GetTrainById(id);
-
-            if (existingTrain == null)
+            //prevent traveller to access this resource
+            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent")
             {
-                return NotFound($"Train with id = {id} not found");
+                return Unauthorized("Unauthorized");
             }
-
-            trainService.UpdateTrain(id, train);
-
-            return NoContent();
+            await _mongoDBService.CreateTrain(train);
+            return Ok("Train Schedule Created Successfully");
         }
-
-        // DELETE api/<TicketController>/5
-        [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        //get all train with schedules
+        [HttpGet("schedules")]
+        public async Task<dynamic> GetSchedules()
         {
-            var train = trainService.GetTrainById(id);
-
-            if (train == null)
+            var request = Request;
+            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
-                return NotFound($"Train with id = {id} not found");
+                return Unauthorized("Unauthorized");
             }
-
-            trainService.DeleteTrain(train.Id);
-
-            return Ok($"Train with Id = {id} deleted");
+            return await
+           _mongoDBService.GetSchedules(JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString());
+        }
+        //update schedule
+        [HttpPut("schedule/update/{id}")]
+        public async Task<dynamic> UpdateSchedule(string id, [FromBody] Train
+train)
+        {
+            var request = Request;
+            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            {
+                return Unauthorized("Unauthorized");
+            }
+            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent") return Unauthorized("Unauthorized");
+            await _mongoDBService.UpdateSchedule(id, train);
+            return Ok($"Schedule Updated Successfully");
+        }
+        //cancel schedule
+        [HttpPut("schedule/cancel/{id}")]
+        public async Task<dynamic> CancelSchedule(string id, [FromBody] Train
+       train)
+        {
+            var request = Request;
+            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            {
+                return Unauthorized("Unauthorized");
+            }
+            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent") return Unauthorized("Unauthorized");
+            else if (!train.reservations.IsNullOrEmpty())
+            {
+                return BadRequest("Cannot Cancelled. Already Have Reservations");
+            }
+            await _mongoDBService.CancelSchedule(id, train);
+            return Ok($"Schedule Cancelled Successfully");
         }
     }
 }

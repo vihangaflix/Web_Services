@@ -3,37 +3,37 @@ using MongoDB.Bson;
 
 namespace Web_Services.Models
 {
-    public enum TypeEnum
+    public class Reservation
     {
-        Cancel,
-        Active,
-        ActiveAndPublished
+        public string? username { get; set; } = null!;
+        public string? email { get; set; } = null!;
+        public string? phone { get; set; } = null!;
+        public string? address { get; set; } = null!;
+        public string? nic { get; set; } = null!;
+        public string? userId { get; set; } = null!;
+        public string? createdAt { get; set; } = null!;
+        public string? updatedAt { get; set; } = null!;
+        public string? status { get; set; } = null!;
+    }
+    public class Reference
+    {
+        public string? refId { get; set; } = null!;
     }
     public class Train
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; } = String.Empty;
-
-        [BsonElement("TrainName")]
-        public string TrainName { get; set; } = String.Empty;
-
-        [BsonElement("Time")]
-        public string Time { get; set; } = String.Empty;
-
-        [BsonElement("StartLocation")]
-        public string StartLocation { get; set; } = String.Empty;
-
-        [BsonElement("DepartureLocation")]
-        public string DepartureLocation { get; set; } = String.Empty;
-
-        [BsonElement("CreatedTime")]
-        public string CreatedTime { get; set; } = String.Empty;
-
-        [BsonElement("LastUpdatedTime")]
-        public string LastUpdatedTime { get; set; } = String.Empty;
-
-        [BsonElement("Status")]
-        public TypeEnum Status { get; set; } = TypeEnum.Cancel;
+        public string? Id { get; set; } = null!;
+        public string? name { get; set; } = null!;
+        public string? time { get; set; } = null!;
+        public string? start { get; set; } = null!;
+        public string? departure { get; set; } = null!;
+        [BsonElement("reservations")]
+        public List<Reservation>? reservations { get; set; } = null!;
+        [BsonElement("references")]
+        public List<Reference>? references { get; set; } = null!;
+        public string? createdAt { get; set; } = null!;
+        public string? updatedAt { get; set; } = null!;
+        public string? status { get; set; } = null!;
     }
 }
