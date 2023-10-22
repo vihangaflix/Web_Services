@@ -45,6 +45,7 @@ namespace Web_Services.Services
             try
             {
                 var projection = Builders<Auth>.Projection.Exclude(u => u.password);
+
                 return await _userCollection.Find(new
                BsonDocument()).Project<Auth>(projection).ToListAsync();
             }

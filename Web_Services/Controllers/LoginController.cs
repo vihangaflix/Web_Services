@@ -25,8 +25,7 @@ namespace Web_Services.Controllers
             //Check for the user already existence
             foreach (var i in await _mongoDBService.GetUserAsync())
             {
-                if (BCrypt.Net.BCrypt.Verify(user.password, i.password) &&
-               (i.email == user.email || i.nic == user.nic))
+                if (BCrypt.Net.BCrypt.Verify(user.password, i.password) && (i.email == user.email || i.nic == user.nic))
                 {
                     if (i.status != "ACTIVE")
                     {

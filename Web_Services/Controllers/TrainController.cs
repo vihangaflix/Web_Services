@@ -22,12 +22,12 @@ namespace Web_Services.Controllers
         public async Task<dynamic> CreateTrain([FromBody] Train train)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
             //prevent traveller to access this resource
-            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent")
+            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-api-key"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent")
             {
                 return Unauthorized("Unauthorized");
             }
@@ -39,12 +39,12 @@ namespace Web_Services.Controllers
         public async Task<dynamic> GetSchedules()
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
             return await
-           _mongoDBService.GetSchedules(JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString());
+           _mongoDBService.GetSchedules(JWTDecoder.DecodeJwtToken(request.Headers["x-api-key"][0]).Payload.ToList()[3].Value.ToString());
         }
         //update schedule
         [HttpPut("schedule/update/{id}")]
@@ -52,11 +52,11 @@ namespace Web_Services.Controllers
 train)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
-            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent") return Unauthorized("Unauthorized");
+            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-api-key"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent") return Unauthorized("Unauthorized");
             await _mongoDBService.UpdateSchedule(id, train);
             return Ok($"Schedule Updated Successfully");
         }
@@ -66,11 +66,11 @@ train)
        train)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
-            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent") return Unauthorized("Unauthorized");
+            else if (JWTDecoder.DecodeJwtToken(request.Headers["x-api-key"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent") return Unauthorized("Unauthorized");
             else if (!train.reservations.IsNullOrEmpty())
             {
                 return BadRequest("Cannot Cancelled. Already Have Reservations");

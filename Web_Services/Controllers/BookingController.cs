@@ -23,7 +23,7 @@ namespace Web_Services.Controllers
        string time, string start, string departure, [FromBody] Auth user)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -36,7 +36,7 @@ namespace Web_Services.Controllers
         public async Task<dynamic> GetBookingsForTrain(string id)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -47,7 +47,7 @@ namespace Web_Services.Controllers
         public async Task<dynamic> GetBookingsForUser(string id, string refId)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -58,7 +58,7 @@ namespace Web_Services.Controllers
         public async Task<IActionResult> CancelBooking(string id, [FromBody] Booking booking)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -70,7 +70,7 @@ namespace Web_Services.Controllers
         public async Task<dynamic> BookingHistoryForUser(string id)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -82,7 +82,7 @@ namespace Web_Services.Controllers
        assistance)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -94,7 +94,7 @@ namespace Web_Services.Controllers
         public async Task<dynamic> GetAssistant(string name)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -105,7 +105,7 @@ namespace Web_Services.Controllers
         public async Task<IActionResult> AssignUser(string id, [FromBody] Booking booking)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -117,7 +117,7 @@ namespace Web_Services.Controllers
         public async Task<dynamic> GetBookingsByUserName(string username)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -128,7 +128,7 @@ namespace Web_Services.Controllers
         public async Task<IActionResult> ResolveOrReject(string id, [FromBody] Assistance assistance)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }

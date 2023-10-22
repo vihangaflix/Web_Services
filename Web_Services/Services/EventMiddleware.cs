@@ -6,6 +6,7 @@ namespace Web_Services.Services
     {
         public static async Task<bool> Authorizer(string headers, MongoDBService _mongoDBService)
         {
+            var header = headers;
             if (headers.IsNullOrEmpty())
             {
                 return true;
@@ -14,8 +15,7 @@ namespace Web_Services.Services
             {
                 var decode = JWTDecoder.DecodeJwtToken(headers);
                 var obj = decode.Payload.ToList();
-                var chk = await
-                _mongoDBService.GetProfileByEmail(obj[2].Value.ToString());
+                var chk = await _mongoDBService.GetProfileByEmail(obj[2].Value.ToString());
                 //check whether user existance
                 if (chk.IsNullOrEmpty()) return true;
                 return false;

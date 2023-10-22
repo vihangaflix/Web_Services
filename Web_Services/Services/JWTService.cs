@@ -8,7 +8,7 @@ namespace Web_Services.Services
     public class JWTService
     {
         private readonly string _secretKey = "a3Df8sG2jH5kL9pNqRtUxWz1v4y7BcEa";
-        private readonly string _issuer = "https://localhost:7188/";
+        private readonly string _issuer = "https://localhost:7193/";
         public string GenerateJwtToken(string username, string email, string type, string nic, string id, string address, string phone)
         {
             var claims = new[]

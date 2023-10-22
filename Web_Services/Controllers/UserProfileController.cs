@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using static MongoDB.Driver.WriteConcern;
 using Web_Services.Models;
 using Web_Services.Services;
+using System.Reflection.PortableExecutable;
 
 namespace Web_Services.Controllers
 {
@@ -23,8 +24,9 @@ namespace Web_Services.Controllers
         public async Task<IActionResult> EditProfile(string id, [FromBody] Auth
        user)
         {
+     
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -36,12 +38,12 @@ namespace Web_Services.Controllers
         public async Task<IActionResult> Account(string id, [FromBody] Auth user)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
             //prevent traveller to activate his account when it is in DEACTIVATE mode
-            else if ((JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent" || JWTDecoder.DecodeJwtToken(request.Headers["x-apikey"][0]).Payload.ToList()[3].Value.ToString() == "user") && user.status == "ACTIVE")
+            else if ((JWTDecoder.DecodeJwtToken(request.Headers["x-api-key"][0]).Payload.ToList()[3].Value.ToString() == "travel-agent" || JWTDecoder.DecodeJwtToken(request.Headers["x-api-key"][0]).Payload.ToList()[3].Value.ToString() == "user") && user.status == "ACTIVE")
             {
                 return Unauthorized("Cannot Activate Your Account. Please Contact Back Officer.");
             }
@@ -53,7 +55,7 @@ namespace Web_Services.Controllers
         public async Task<dynamic> GetProfile(string id)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -64,7 +66,9 @@ namespace Web_Services.Controllers
         public async Task<dynamic> GetAllUsers()
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            var test = request.Headers["x-api-key"][0];
+            var testOne = request.Headers["x-api-key"].IsNullOrEmpty();
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
@@ -75,7 +79,7 @@ namespace Web_Services.Controllers
         public async Task<dynamic> DeleteUser(string id)
         {
             var request = Request;
-            if (await EventMiddleware.Authorizer(request.Headers["x-apikey"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
+            if (await EventMiddleware.Authorizer(request.Headers["x-api-key"].IsNullOrEmpty() ? null : request.Headers["x-api-key"][0], _mongoDBService))
             {
                 return Unauthorized("Unauthorized");
             }
